@@ -309,6 +309,28 @@ html, body, #root {
 .risk-badge--high     { color: var(--risk-high);     }
 .risk-badge--critical { color: var(--risk-critical); }
 
+/* ─── Synopsis ───────────────────────────────────────────────────────────── */
+.probe-card__synopsis {
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 10px 12px;
+  border-left: 2px solid var(--border);
+  color: var(--text);
+  background: var(--surface-alt);
+}
+
+.probe-card__synopsis--high,
+.probe-card__synopsis--critical {
+  color: var(--text-bright);
+  border-left-color: currentColor;
+}
+
+.probe-card__synopsis--high     { color: var(--risk-high);     }
+.probe-card__synopsis--critical { color: var(--risk-critical); }
+.probe-card__synopsis--medium   { border-left-color: var(--risk-medium); }
+.probe-card__synopsis--low      { border-left-color: var(--risk-low);    }
+.probe-card__synopsis--info     { border-left-color: var(--risk-info);   }
+
 /* ─── Findings ───────────────────────────────────────────────────────────── */
 .findings {
   display: flex;

@@ -1,5 +1,6 @@
 import type { ProbeId, ProbeResult, RiskLevel } from '../types/probe';
 import { RISK_ORDER } from '../types/probe';
+import { getSynopsis } from '../utils/synopsis';
 import { WebRTCFindings } from './findings/WebRTCFindings';
 import { PortScanFindings } from './findings/PortScanFindings';
 import { FingerprintFindings } from './findings/FingerprintFindings';
@@ -29,6 +30,7 @@ function probeMaxRisk(probe: ProbeResult): RiskLevel {
 export function ProbeCard({ probe }: { probe: ProbeResult }) {
   const maxRisk = probeMaxRisk(probe);
   const FindingsComponent = FINDINGS_COMPONENTS[probe.id];
+  const synopsis = getSynopsis(probe);
 
   return (
     <div className={`probe-card probe-card--${probe.status} probe-card--${maxRisk}`}>
@@ -59,6 +61,10 @@ export function ProbeCard({ probe }: { probe: ProbeResult }) {
 
       {probe.status === 'error' && (
         <p className="probe-card__error">Error: {probe.error}</p>
+      )}
+
+      {synopsis && (
+        <p className={`probe-card__synopsis probe-card__synopsis--${maxRisk}`}>{synopsis}</p>
       )}
 
       {probe.status === 'done' && (
