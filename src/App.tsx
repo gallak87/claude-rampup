@@ -85,25 +85,24 @@ export default function App() {
         <p className="app-subtitle">What does your browser expose to every site you visit?</p>
       </header>
 
-      {activeTool === '127.0.0.1' && (
-        <ScanButton
-          scanning={state.scanning}
-          hasResults={hasResults}
-          onScan={startScan}
-          onReset={() => dispatch({ type: 'SCAN_RESET' })}
-        />
-      )}
-
       <OverallScore probes={state.probes} />
 
       <ToolBar active={activeTool} onChange={setActiveTool} />
 
       {activeTool === '127.0.0.1' && (
-        <div className="probe-grid">
-          {(Object.values(state.probes) as ProbeResult[]).map(probe => (
-            <ProbeCard key={probe.id} probe={probe} />
-          ))}
-        </div>
+        <>
+          <ScanButton
+            scanning={state.scanning}
+            hasResults={hasResults}
+            onScan={startScan}
+            onReset={() => dispatch({ type: 'SCAN_RESET' })}
+          />
+          <div className="probe-grid">
+            {(Object.values(state.probes) as ProbeResult[]).map(probe => (
+              <ProbeCard key={probe.id} probe={probe} />
+            ))}
+          </div>
+        </>
       )}
 
       {activeTool === 'coming-soon' && <ComingSoon />}
