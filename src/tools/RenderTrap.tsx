@@ -163,7 +163,7 @@ export function RenderTrap() {
     <div className="rendertrap">
       <div className="rendertrap__header">
         <p className="rendertrap__desc">
-          same drawing instructions render differently on every machine — GPU, OS, and driver leave unique traces in the pixels. we hash those traces.
+          same code, different pixels — GPU/OS/driver leave unique traces. we hash them.
         </p>
         <button className="scan-btn" onClick={runScan} disabled={scanning}>
           <span className="scan-btn__prompt">{'>'}</span>
@@ -197,6 +197,7 @@ export function RenderTrap() {
         </div>
 
         <div className="rendertrap__readout">
+          <span className="rendertrap__canvas-label">fingerprint output</span>
           <div className="rendertrap__hash-panel">
             <span className="rendertrap__hash-label">djb2 hash</span>
             <span className={`rendertrap__hash-value ${done ? 'rendertrap__hash-value--done' : ''}`}>
@@ -209,7 +210,7 @@ export function RenderTrap() {
               <span>pixel</span>
               <span>rgb</span>
               <span>swatch</span>
-              <span>Δ hash</span>
+              <span>hash +/-</span>
             </div>
             <div className="rendertrap__samples-list">
               {samples.slice(-20).map((s, i) => (
@@ -218,6 +219,7 @@ export function RenderTrap() {
                   <span className="rendertrap__sample-rgb">{s.r},{s.g},{s.b}</span>
                   <span className="rendertrap__sample-swatch" style={{ background: `rgb(${s.r},${s.g},${s.b})` }} />
                   <span className="rendertrap__sample-delta">+{s.contribution}</span>
+
                 </div>
               ))}
             </div>

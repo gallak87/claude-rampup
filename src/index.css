@@ -294,7 +294,15 @@ html, body, #root {
 .rendertrap__readout {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
+}
+
+.rendertrap__readout > * + * {
+  margin-top: 16px;
+}
+
+.rendertrap__readout > .rendertrap__hash-panel {
+  margin-top: 6px;
 }
 
 .rendertrap__hash-panel {
@@ -333,8 +341,8 @@ html, body, #root {
 
 .rendertrap__samples-header {
   display: grid;
-  grid-template-columns: 60px 1fr 24px 60px;
-  gap: 8px;
+  grid-template-columns: 70px 140px 40px 80px;
+  gap: 12px;
   padding: 6px 12px;
   font-size: 10px;
   color: var(--text-dim);
@@ -350,8 +358,8 @@ html, body, #root {
 
 .rendertrap__sample-row {
   display: grid;
-  grid-template-columns: 60px 1fr 24px 60px;
-  gap: 8px;
+  grid-template-columns: 70px 140px 20px 80px;
+  gap: 12px;
   padding: 4px 12px;
   font-size: 11px;
   border-bottom: 1px solid var(--border);
