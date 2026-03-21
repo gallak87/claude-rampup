@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { ScanButton } from '../components/ScanButton';
+import birdUrl from '../assets/canary.png';
+
+// Preload once at module level so drawScene can use it synchronously
+const birdImg = new Image();
+birdImg.src = birdUrl;
 
 const W = 240;
 const H = 60;
@@ -27,9 +32,27 @@ function drawScene(ctx: CanvasRenderingContext2D) {
   ctx.fillStyle = '#f60';
   ctx.fillRect(125, 1, 62, 20);
   ctx.fillStyle = '#069';
-  ctx.fillText('Canary 🐦', 2, 15);
+  ctx.fillText('Canary ', 2, 15);
   ctx.fillStyle = 'rgba(102,204,0,0.7)';
-  ctx.fillText('Canary 🐦', 4, 17);
+  ctx.fillText('Canary ', 4, 17);
+
+  // Native resolution: crop a canvas-sized window from the source image,
+  // anchored at the bird's face (~22% from left, ~44% from top).
+  // 1 source px → 1 canvas px, no scaling, maximum fidelity.
+  if (birdImg.complete && birdImg.naturalWidth > 0) {
+    const { naturalWidth: nw, naturalHeight: nh } = birdImg;
+    const tw  = ctx.measureText('Canary ').width;
+    const dx  = 2 + tw;           // canvas x where bird starts
+    const sw  = W - dx;           // canvas pixels available for the bird
+    const sx  = Math.max(0, Math.round(nw * 0.29));
+    const sy  = Math.max(0, Math.round(nh * 0.49 - H / 2));
+    ctx.drawImage(birdImg, sx, sy, sw, H, dx, 0, sw, H);
+    ctx.save();
+    ctx.globalAlpha = 0.7;
+    ctx.drawImage(birdImg, sx + 2, sy + 2, sw, H, dx, 0, sw, H);
+    ctx.restore();
+  }
+
   ctx.beginPath();
   ctx.moveTo(0, 30);
   ctx.bezierCurveTo(60, 0, 120, 60, 200, 30);
@@ -92,15 +115,24 @@ export function RenderTrap() {
   const [hovering, setHovering] = useState(false);
   const [howOpen, setHowOpen]   = useState(false);
 
-  // initial draw
+  // initial draw — defer until bird PNG is ready
   useEffect(() => {
     const canvas = sourceRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
-    drawScene(ctx);
-    imageDataRef.current = ctx.getImageData(0, 0, W, H);
-    const zctx = zoomRef.current?.getContext('2d');
-    if (zctx) drawZoom(zctx, canvas, W / 2, H / 2, false);
+
+    const render = () => {
+      drawScene(ctx);
+      imageDataRef.current = ctx.getImageData(0, 0, W, H);
+      const zctx = zoomRef.current?.getContext('2d');
+      if (zctx) drawZoom(zctx, canvas, W / 2, H / 2, false);
+    };
+
+    if (birdImg.complete) {
+      render();
+    } else {
+      birdImg.addEventListener('load', render, { once: true });
+    }
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
