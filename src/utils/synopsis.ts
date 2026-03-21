@@ -72,13 +72,13 @@ function fingerprintSynopsis(probe: ProbeResult): string {
   if (!entropyFinding) return `Fingerprinting complete. Your browser leaks enough rendering and hardware data to be tracked across sites without cookies.`;
 
   const masked = webglRenderer?.value.includes('masked');
-  const entropyBits = parseFloat(entropyFinding.value);
+  const entropyRisk = entropyFinding.risk;
 
-  if (entropyBits >= 18) {
+  if (entropyRisk === 'critical' || entropyRisk === 'high') {
     const driver = !masked && webglRenderer ? ` Your GPU (${webglRenderer.value}) alone is a strong identifier.` : '';
     return `Highly unique fingerprint.${driver} You can likely be re-identified across sites without any cookies or login — purely from how your browser renders graphics and text.`;
   }
-  if (entropyBits >= 10) {
+  if (entropyRisk === 'medium') {
     const fontCount = fonts ? fonts.label.match(/\d+/)?.[0] : null;
     const fontNote = fontCount ? ` ${fontCount} installed fonts contribute significantly.` : '';
     return `Moderate fingerprint entropy — you're identifiable within a fairly small group.${fontNote} Combined with IP or behavioral signals, re-identification is likely.`;
