@@ -847,6 +847,131 @@ html, body, #root {
 .storagemap__status-text--blocked   { color: var(--risk-medium); }
 .storagemap__status-text--probing   { color: var(--accent); }
 
+/* ─── LanGhost ───────────────────────────────────────────────────────────── */
+.langhost {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.langhost__meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 11px;
+  color: var(--text-dim);
+  flex-wrap: wrap;
+}
+
+.langhost__meta-item      { display: flex; gap: 6px; }
+.langhost__meta-value     { color: var(--text-bright); font-variant-numeric: tabular-nums; }
+.langhost__meta-value--accent { color: var(--accent); }
+.langhost__meta-guess     { color: var(--risk-medium); font-style: italic; }
+
+.langhost__grid-card { padding: 10px 12px; }
+
+.langhost__grid {
+  display: grid;
+  grid-template-columns: repeat(32, 1fr);
+  gap: 3px;
+}
+
+.langhost__cell {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+}
+
+.langhost__cell--idle    { background: var(--surface); }
+.langhost__cell--scanning {
+  background: var(--accent-dim);
+  border-color: var(--accent-dim);
+  animation: cell-pulse 0.8s ease-in-out infinite;
+}
+.langhost__cell--alive   { background: var(--accent); border-color: var(--accent); }
+.langhost__cell--dead    { background: var(--surface-alt); }
+.langhost__cell--spacer  { background: transparent; border-color: transparent; }
+
+@keyframes cell-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 1;    }
+}
+
+.langhost__hosts { overflow: hidden; }
+
+.langhost__hosts-header {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 0 16px;
+  padding: 6px 14px;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.langhost__host-wrap { display: flex; flex-direction: column; }
+
+.langhost__host-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 0 16px;
+  padding: 7px 14px;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.langhost__host-row:last-child         { border-bottom: none; }
+.langhost__host-row--expandable        { cursor: pointer; }
+.langhost__host-row--expandable:hover  { background: var(--surface-alt); }
+
+.langhost__host-ip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.langhost__host-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.langhost__host-services { color: var(--text); }
+.langhost__host-none     { color: var(--text-dim); font-style: italic; }
+.langhost__host-probing  { color: var(--accent); animation: pulse 1s ease-in-out infinite; }
+.langhost__host-toggle   { color: var(--accent); font-size: 9px; margin-left: 4px; }
+
+.langhost__port-list {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.langhost__port-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 60px;
+  gap: 0 12px;
+  padding: 4px 14px 4px 42px;
+  font-size: 10px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.langhost__port-row:last-child { border-bottom: none; }
+.langhost__port-num   { color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.langhost__port-label { color: var(--text); }
+.langhost__port-link  { color: var(--accent); text-decoration: none; text-align: right; }
+.langhost__port-link:hover { text-decoration: underline; }
+
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 .app-footer {
   font-size: 11px;

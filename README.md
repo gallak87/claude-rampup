@@ -12,6 +12,9 @@ passive recon tool that runs entirely client-side. no server, no tracking, no in
 
 ## tools
 
+### LAN Ghost
+subnet sweep via fetch() timing side-channels — maps every host on your local network from a browser tab, no extensions, no permissions. fast TCP RST (~5–50ms) means something's home; timeout means nobody answered. finds alive hosts, then probes common service ports on each one.
+
 ### 127.0.0.1
 - **WebRTC IP leak** — bypasses VPN/proxy to grab your real public IP via ICE candidates
 - **localhost port scan** — fetch() timing side-channel to find open DBs, dev servers, docker daemons
@@ -29,6 +32,5 @@ maps every persistence vector this origin can use: localStorage, sessionStorage,
 ## roadmap (shipping nowhere, vibes only)
 
 - [ ] **live port monitor** — continuous scan mode, alerts when a new service pops up on localhost
-- [ ] **LAN ghost** — subnet sweep via timing side-channels, map your entire local network from a tab
 - [ ] **VPN lie detector** — cross-ref WebRTC IP vs timezone vs DNS resolver to score how badly your VPN is failing you
 - [ ] **satellite mode** — OSINT enrichment on discovered IPs: ASN, geo, abuse reports, reverse DNS. point at yourself, feel watched.

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ToolBar } from './components/ToolBar';
+import { LanGhost } from './tools/LanGhost';
 import { LocalhostScanner } from './tools/LocalhostScanner';
 import { RenderTrap } from './tools/RenderTrap';
 import { StorageMap } from './tools/StorageMap';
@@ -7,7 +8,7 @@ import type { ToolId } from './components/ToolBar';
 import './index.css';
 
 export default function App() {
-  const [activeTool, setActiveTool] = useState<ToolId>('127.0.0.1');
+  const [activeTool, setActiveTool] = useState<ToolId>('langhost');
 
   return (
     <div className="app">
@@ -18,6 +19,7 @@ export default function App() {
 
       <ToolBar active={activeTool} onChange={setActiveTool} />
 
+      {activeTool === 'langhost'   && <LanGhost />}
       {activeTool === '127.0.0.1' && <LocalhostScanner />}
       {activeTool === 'rendertrap' && <RenderTrap />}
       {activeTool === 'storagemap' && <StorageMap />}
