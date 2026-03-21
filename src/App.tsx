@@ -80,8 +80,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <div className="app-header__eyebrow">passive browser recon · no server · no tracking</div>
-        <h1 className="app-title">NakedBrowser<span className="app-title__cursor">_</span></h1>
+        <h1 className="app-title">Canary<span className="app-title__cursor">_</span></h1>
         <p className="app-subtitle">What does your browser expose to every site you visit?</p>
       </header>
 
@@ -90,19 +89,24 @@ export default function App() {
       <ToolBar active={activeTool} onChange={setActiveTool} />
 
       {activeTool === '127.0.0.1' && (
-        <>
-          <ScanButton
-            scanning={state.scanning}
-            hasResults={hasResults}
-            onScan={startScan}
-            onReset={() => dispatch({ type: 'SCAN_RESET' })}
-          />
+        <div className="rendertrap">
+          <div className="rendertrap__header">
+            <p className="rendertrap__desc">
+              probes WebRTC, open ports, and browser fingerprint — all client-side, no requests leave your machine.
+            </p>
+            <ScanButton
+              scanning={state.scanning}
+              hasResults={hasResults}
+              onScan={startScan}
+              onReset={() => dispatch({ type: 'SCAN_RESET' })}
+            />
+          </div>
           <div className="probe-grid">
             {(Object.values(state.probes) as ProbeResult[]).map(probe => (
               <ProbeCard key={probe.id} probe={probe} />
             ))}
           </div>
-        </>
+        </div>
       )}
 
       {activeTool === 'rendertrap' && <RenderTrap />}

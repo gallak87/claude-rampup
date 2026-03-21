@@ -35,10 +35,10 @@ html, body, #root {
 .app {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 28px 24px 48px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 20px;
 }
 
 /* ─── Header ─────────────────────────────────────────────────────────────── */
@@ -56,7 +56,7 @@ html, body, #root {
 }
 
 .app-title {
-  font-size: clamp(28px, 5vw, 48px);
+  font-size: clamp(18px, 3vw, 28px);
   font-weight: 700;
   color: var(--text-head);
   letter-spacing: -0.02em;
@@ -140,7 +140,7 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px 24px;
+  padding: 12px 20px;
   border: 1px solid var(--border);
   background: var(--surface);
 }
@@ -235,8 +235,8 @@ html, body, #root {
 .rendertrap {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding-top: 8px;
+  gap: 16px;
+  padding-top: 4px;
 }
 
 .rendertrap__header {
@@ -253,15 +253,15 @@ html, body, #root {
 
 .rendertrap__panels {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
   align-items: start;
 }
 
 .rendertrap__canvases {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .rendertrap__canvas-wrap {
@@ -269,6 +269,21 @@ html, body, #root {
   flex-direction: column;
   gap: 6px;
 }
+
+.rendertrap__how-btn {
+  background: none;
+  border: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: 0.05em;
+  text-align: left;
+  transition: color 0.15s;
+}
+
+.rendertrap__how-btn:hover { color: var(--text); }
 
 .rendertrap__canvas-label {
   font-size: 10px;
@@ -278,9 +293,27 @@ html, body, #root {
 }
 
 .rendertrap__source {
-  border: 1px solid var(--border);
+  border: 1px solid rgba(0, 184, 94, 0.2);
   display: block;
   background: #000;
+  cursor: crosshair;
+  transition: border-color 0.2s;
+}
+
+.rendertrap__source--active {
+  border-color: rgba(0, 184, 94, 0.55);
+}
+
+
+.rendertrap__how {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding: 8px 10px;
+  border-left: 2px solid var(--border);
 }
 
 .rendertrap__zoom {
@@ -298,18 +331,18 @@ html, body, #root {
 }
 
 .rendertrap__readout > * + * {
-  margin-top: 16px;
+  margin-top: 10px;
 }
 
 .rendertrap__readout > .rendertrap__hash-panel {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .rendertrap__hash-panel {
   display: flex;
   align-items: baseline;
   gap: 16px;
-  padding: 12px 16px;
+  padding: 8px 12px;
   background: var(--surface);
   border: 1px solid var(--border);
 }
@@ -386,7 +419,7 @@ html, body, #root {
 .probe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
+  gap: 10px;
 }
 
 /* ─── Probe Card ─────────────────────────────────────────────────────────── */
@@ -394,10 +427,10 @@ html, body, #root {
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--border);
-  padding: 20px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   transition: border-color 0.3s;
 }
 

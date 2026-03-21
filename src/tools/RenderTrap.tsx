@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { ScanButton } from '../components/ScanButton';
 
 const W = 240;
 const H = 60;
@@ -22,13 +23,13 @@ function djb2Step(hash: number, char: number): number {
 function drawScene(ctx: CanvasRenderingContext2D) {
   ctx.clearRect(0, 0, W, H);
   ctx.textBaseline = 'top';
-  ctx.font = '14px Arial';
+  ctx.font = 'bold 44px Arial';
   ctx.fillStyle = '#f60';
   ctx.fillRect(125, 1, 62, 20);
   ctx.fillStyle = '#069';
-  ctx.fillText('NakedBrowser \ud83d\udd0d', 2, 15);
+  ctx.fillText('Canary 🐦', 2, 15);
   ctx.fillStyle = 'rgba(102,204,0,0.7)';
-  ctx.fillText('NakedBrowser \ud83d\udd0d', 4, 17);
+  ctx.fillText('Canary 🐦', 4, 17);
   ctx.beginPath();
   ctx.moveTo(0, 30);
   ctx.bezierCurveTo(60, 0, 120, 60, 200, 30);
@@ -80,12 +81,16 @@ function buildSampleCoords(): { x: number; y: number }[] {
 }
 
 export function RenderTrap() {
-  const sourceRef  = useRef<HTMLCanvasElement>(null);
-  const zoomRef    = useRef<HTMLCanvasElement>(null);
+  const sourceRef    = useRef<HTMLCanvasElement>(null);
+  const zoomRef      = useRef<HTMLCanvasElement>(null);
+  const imageDataRef = useRef<ImageData | null>(null);
+  const hashRef      = useRef(5381);
   const [samples, setSamples]   = useState<PixelSample[]>([]);
   const [hash, setHash]         = useState('');
   const [scanning, setScanning] = useState(false);
   const [done, setDone]         = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const [howOpen, setHowOpen]   = useState(false);
 
   // initial draw
   useEffect(() => {
@@ -93,11 +98,11 @@ export function RenderTrap() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
     drawScene(ctx);
+    imageDataRef.current = ctx.getImageData(0, 0, W, H);
     const zctx = zoomRef.current?.getContext('2d');
     if (zctx) drawZoom(zctx, canvas, W / 2, H / 2, false);
   }, []);
 
-  // mouse hover on source canvas pans zoom (only after scan, not during)
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (scanning) return;
     const canvas = sourceRef.current;
@@ -108,6 +113,18 @@ export function RenderTrap() {
     const cy = Math.round((e.clientY - rect.top)  * (H / rect.height));
     const zctx = zcanvas.getContext('2d')!;
     drawZoom(zctx, canvas, cx, cy, true);
+
+    const imgData = imageDataRef.current;
+    if (!imgData) return;
+    const idx = (cy * W + cx) * 4;
+    const r = imgData.data[idx];
+    const g = imgData.data[idx + 1];
+    const b = imgData.data[idx + 2];
+    const prev = hashRef.current;
+    hashRef.current = djb2Step(djb2Step(djb2Step(prev, r), g), b);
+    const contribution = Math.abs(hashRef.current - prev) % 256;
+    setSamples(s => [...s.slice(-19), { x: cx, y: cy, r, g, b, contribution }]);
+    setHash((hashRef.current >>> 0).toString(16).padStart(8, '0'));
   }, [scanning]);
 
   function runScan() {
@@ -118,6 +135,8 @@ export function RenderTrap() {
     const zctx = zcanvas.getContext('2d')!;
 
     drawScene(ctx);
+    imageDataRef.current = ctx.getImageData(0, 0, W, H);
+    hashRef.current = 5381;
     setSamples([]);
     setHash('');
     setDone(false);
@@ -129,7 +148,7 @@ export function RenderTrap() {
     let currentHash = 5381;
     let i = 0;
 
-    function step() {
+    function step(canvas: HTMLCanvasElement) {
       if (i >= coords.length) {
         setScanning(false);
         setDone(true);
@@ -153,10 +172,10 @@ export function RenderTrap() {
       drawZoom(zctx, canvas, x, y, true);
 
       i++;
-      setTimeout(step, 60);
+      setTimeout(() => step(canvas), 60);
     }
 
-    step();
+    step(canvas);
   }
 
   return (
@@ -165,10 +184,14 @@ export function RenderTrap() {
         <p className="rendertrap__desc">
           same code, different pixels — GPU/OS/driver leave unique traces. we hash them.
         </p>
-        <button className="scan-btn" onClick={runScan} disabled={scanning}>
-          <span className="scan-btn__prompt">{'>'}</span>
-          {scanning ? ' tracing…' : done ? ' RE-RUN' : ' RUN'}
-        </button>
+        <ScanButton
+          scanning={scanning}
+          hasResults={done}
+          onScan={runScan}
+          onReset={() => { hashRef.current = 5381; setSamples([]); setHash(''); setDone(false); }}
+          label="TRACE"
+          scanningLabel="tracing…"
+        />
       </div>
 
       <div className="rendertrap__panels">
@@ -179,9 +202,22 @@ export function RenderTrap() {
               ref={sourceRef}
               width={W}
               height={H}
-              className="rendertrap__source"
+              className={`rendertrap__source ${hovering ? 'rendertrap__source--active' : ''}`}
               onMouseMove={handleMouseMove}
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
             />
+          </div>
+          <div className="rendertrap__canvas-wrap">
+            <button className="rendertrap__how-btn" onClick={() => setHowOpen(o => !o)}>
+              {howOpen ? '▲' : '▼'} how it works
+            </button>
+            {howOpen && (
+              <div className="rendertrap__how">
+                <p>your GPU, OS, and driver render the same canvas instructions slightly differently — sub-pixel rounding, antialiasing, and blending all vary.</p>
+                <p>hover the canvas to sample pixels live. each pixel's RGB feeds a djb2 hash, building a fingerprint unique to your render environment.</p>
+              </div>
+            )}
           </div>
           <div className="rendertrap__canvas-wrap">
             <span className="rendertrap__canvas-label">
