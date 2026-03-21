@@ -8,7 +8,9 @@ npm i && npm run dev
 
 passive recon tool that runs entirely client-side. no server, no tracking, no install. just open it and get existentially uncomfortable.
 
-![Canary in action](./screenshot.png)
+![Canary Specter](./screenshot.png)
+
+![Canary Snitch](./screenshot2.png)
 
 ## tools
 
@@ -29,6 +31,14 @@ three sub-tools, one tab:
 - **abuse reports** — not yet implemented. planned: AbuseIPDB (requires free API key)
 - private LAN IPs get rDNS only — ip-api.com returns nothing useful for 192.168.x.x ranges
 
+### Snitch
+detects installed browser extensions without any permissions. three techniques:
+- **window globals** — extensions often inject objects onto `window` (e.g. MetaMask → `window.ethereum`, Polkadot.js → `window.injectedWeb3`). works cross-browser, instant.
+- **DOM markers** — some extensions stamp the page (e.g. Grammarly adds `data-gr-ext-installed` to `<html>`). cross-browser, instant.
+- **resource URL probing** — fetches known `chrome-extension://[id]/[file]` paths. if the resource is in the extension's `web_accessible_resources`, a 200 means it's installed. Chromium only.
+
+currently checks 21 extensions across: crypto/web3, dev tools, writing, privacy, password managers, shopping, and utility.
+
 ### RenderTrap
 your GPU, OS, and driver render the same canvas instructions slightly differently. hover to sample pixels live — each RGB value feeds a djb2 hash, building a fingerprint unique to your render environment. same path → same hash on your machine, different hash on everyone else's.
 
@@ -39,6 +49,9 @@ maps every persistence vector this origin can use: localStorage, sessionStorage,
 
 ## roadmap (shipping nowhere, vibes only)
 
-- [ ] **live port monitor** — continuous scan mode, alerts when a new service pops up on localhost
 - [ ] **VPN lie detector** — cross-ref WebRTC IP vs timezone vs DNS resolver to score how badly your VPN is failing you
+- [ ] **CSS Intel** — what your media query profile reveals: dark mode pref, reduced motion, pointer type, color gamut, DPI, accessibility settings. zero permissions, pure passive.
+- [ ] **Permission ledger** — silently query every permission (camera, mic, geolocation, notifications, clipboard, MIDI, Bluetooth...) and report granted/denied/prompt. sites can do this without triggering a prompt.
 - [ ] **satellite: abuse reports** — AbuseIPDB integration (free API key required) for confidence scores on public IPs
+- [ ] **snitch: WAR path verification** — audit and update resource paths as extensions update their manifests
+- [ ] **live port monitor** — continuous scan mode, alerts when a new service pops up on localhost

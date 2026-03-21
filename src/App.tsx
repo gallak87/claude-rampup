@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ToolBar } from './components/ToolBar';
 import { Specter } from './tools/Specter';
+import { Snitch } from './tools/Snitch';
 import { RenderTrap } from './tools/RenderTrap';
 import { StorageMap } from './tools/StorageMap';
 import type { ToolId } from './components/ToolBar';
@@ -19,6 +20,7 @@ export default function App() {
       <ToolBar active={activeTool} onChange={setActiveTool} />
 
       {activeTool === 'specter'    && <Specter />}
+      {activeTool === 'snitch'     && <Snitch />}
       {activeTool === 'rendertrap' && <RenderTrap />}
       {activeTool === 'storagemap' && <StorageMap />}
 
