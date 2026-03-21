@@ -200,7 +200,10 @@ export function RenderTrap() {
       <div className="rendertrap__panels">
         <div className="rendertrap__canvases">
           <div className="rendertrap__canvas-wrap">
-            <span className="rendertrap__canvas-label">rendered canvas — {W}×{H}px</span>
+            <span className="rendertrap__canvas-label">
+              rendered canvas — {W}×{H}px
+              <span className="rendertrap__canvas-hint"> | hover to sample</span>
+            </span>
             <canvas
               ref={sourceRef}
               width={W}

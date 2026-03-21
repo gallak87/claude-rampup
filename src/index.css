@@ -305,6 +305,12 @@ html, body, #root {
   text-transform: uppercase;
 }
 
+.rendertrap__canvas-hint {
+  color: #c8a94a;
+  text-shadow: 0 0 8px rgba(200, 169, 74, 0.6);
+  letter-spacing: 0.06em;
+}
+
 .rendertrap__source {
   border: 1px solid rgba(0, 184, 94, 0.2);
   display: block;
