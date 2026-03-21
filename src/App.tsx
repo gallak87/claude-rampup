@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ToolBar } from './components/ToolBar';
 import { LocalhostScanner } from './tools/LocalhostScanner';
 import { RenderTrap } from './tools/RenderTrap';
+import { StorageMap } from './tools/StorageMap';
 import type { ToolId } from './components/ToolBar';
 import './index.css';
 
@@ -19,6 +20,7 @@ export default function App() {
 
       {activeTool === '127.0.0.1' && <LocalhostScanner />}
       {activeTool === 'rendertrap' && <RenderTrap />}
+      {activeTool === 'storagemap' && <StorageMap />}
 
       <footer className="app-footer">
         runs entirely in your browser · zero requests to external servers
