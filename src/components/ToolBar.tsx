@@ -1,4 +1,4 @@
-export type ToolId = '127.0.0.1' | 'coming-soon';
+export type ToolId = '127.0.0.1' | 'rendertrap';
 
 interface Tool {
   id: ToolId;
@@ -7,8 +7,8 @@ interface Tool {
 }
 
 const TOOLS: Tool[] = [
-  { id: '127.0.0.1',   label: '127.0.0.1', available: true  },
-  { id: 'coming-soon', label: '???',        available: false },
+  { id: '127.0.0.1',  label: '127.0.0.1',  available: true },
+  { id: 'rendertrap', label: 'RenderTrap',  available: true },
 ];
 
 interface ToolBarProps {

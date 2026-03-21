@@ -5,7 +5,7 @@ import { ProbeCard } from './components/ProbeCard';
 import { ScanButton } from './components/ScanButton';
 import { OverallScore } from './components/OverallScore';
 import { ToolBar } from './components/ToolBar';
-import { ComingSoon } from './components/ComingSoon';
+import { RenderTrap } from './tools/RenderTrap';
 import type { ToolId } from './components/ToolBar';
 import './index.css';
 
@@ -105,7 +105,7 @@ export default function App() {
         </>
       )}
 
-      {activeTool === 'coming-soon' && <ComingSoon />}
+      {activeTool === 'rendertrap' && <RenderTrap />}
 
       <footer className="app-footer">
         runs entirely in your browser · zero requests to external servers

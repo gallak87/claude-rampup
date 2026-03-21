@@ -231,15 +231,147 @@ html, body, #root {
   color: var(--text-dim);
 }
 
-/* ─── Coming Soon ────────────────────────────────────────────────────────── */
-.coming-soon {
+/* ─── RenderTrap ─────────────────────────────────────────────────────────── */
+.rendertrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 8px;
+}
+
+.rendertrap__header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 200px;
+  gap: 24px;
+}
+
+.rendertrap__desc {
+  font-size: 12px;
   color: var(--text-dim);
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  flex: 1;
+}
+
+.rendertrap__panels {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.rendertrap__canvases {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rendertrap__canvas-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rendertrap__canvas-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rendertrap__source {
+  border: 1px solid var(--border);
+  display: block;
+  background: #000;
+}
+
+.rendertrap__zoom {
+  border: 1px solid var(--border);
+  display: block;
+  image-rendering: pixelated;
+  background: #000;
+}
+
+/* Readout */
+.rendertrap__readout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rendertrap__hash-panel {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.rendertrap__hash-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.rendertrap__hash-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  transition: color 0.3s;
+}
+
+.rendertrap__hash-value--done {
+  color: var(--accent);
+}
+
+.rendertrap__samples {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.rendertrap__samples-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 24px 60px;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.rendertrap__samples-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.rendertrap__sample-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 24px 60px;
+  gap: 8px;
+  padding: 4px 12px;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.rendertrap__sample-row:last-child {
+  border-bottom: none;
+  background: var(--surface-alt);
+}
+
+.rendertrap__sample-coord { color: var(--text-dim); }
+.rendertrap__sample-rgb   { color: var(--text);     font-variant-numeric: tabular-nums; }
+.rendertrap__sample-delta { color: var(--accent);   text-align: right; }
+
+.rendertrap__sample-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border);
+  display: block;
 }
 
 /* ─── Probe Grid ─────────────────────────────────────────────────────────── */
