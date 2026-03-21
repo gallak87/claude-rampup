@@ -1,6 +1,7 @@
 import type { ProbeId, ProbeResult, RiskLevel } from '../types/probe';
 import { RISK_ORDER } from '../types/probe';
 import { getSynopsis } from '../utils/synopsis';
+import { Card } from './Card';
 import { WebRTCFindings } from './findings/WebRTCFindings';
 import { PortScanFindings } from './findings/PortScanFindings';
 import { FingerprintFindings } from './findings/FingerprintFindings';
@@ -33,7 +34,7 @@ export function ProbeCard({ probe }: { probe: ProbeResult }) {
   const synopsis = getSynopsis(probe);
 
   return (
-    <div className={`probe-card probe-card--${probe.status} probe-card--${maxRisk}`}>
+    <Card level={maxRisk} className={`probe-card probe-card--${probe.status}`}>
       <div className="probe-card__header">
         <div className="probe-card__title-row">
           <span className="probe-card__status-dot" />
@@ -70,6 +71,6 @@ export function ProbeCard({ probe }: { probe: ProbeResult }) {
       {probe.status === 'done' && (
         <FindingsComponent probe={probe} />
       )}
-    </div>
+    </Card>
   );
 }

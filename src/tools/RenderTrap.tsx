@@ -184,14 +184,17 @@ export function RenderTrap() {
         <p className="rendertrap__desc">
           same code, different pixels — GPU/OS/driver leave unique traces. we hash them.
         </p>
-        <ScanButton
-          scanning={scanning}
-          hasResults={done}
-          onScan={runScan}
-          onReset={() => { hashRef.current = 5381; setSamples([]); setHash(''); setDone(false); }}
-          label="TRACE"
-          scanningLabel="tracing…"
-        />
+        <div className="rendertrap__scan-wrap">
+          <ScanButton
+            scanning={scanning}
+            hasResults={done}
+            onScan={runScan}
+            onReset={() => { hashRef.current = 5381; setSamples([]); setHash(''); setDone(false); }}
+            label="TRACE"
+            scanningLabel="tracing…"
+          />
+          <span className="rendertrap__scan-hint">same path → same hash on your machine</span>
+        </div>
       </div>
 
       <div className="rendertrap__panels">

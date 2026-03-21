@@ -2,6 +2,10 @@
 
 what does your browser expose to every site you visit? turns out, a lot.
 
+```
+npm i && npm run dev
+```
+
 passive recon tool that runs entirely client-side. no server, no tracking, no install. just open it and get existentially uncomfortable.
 
 ![NakedBrowser in action](./screenshot.png)
@@ -13,9 +17,6 @@ passive recon tool that runs entirely client-side. no server, no tracking, no in
 - **browser fingerprint** — canvas, WebGL renderer, AudioContext, fonts → entropy score
 - **navigator leaks** — CPU threads, device memory, timezone, screen, network type, the works
 
-```
-npm install && npm run dev
-```
 
 that's it. runs on http so the port scanner actually works.
 
