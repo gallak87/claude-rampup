@@ -1,73 +1,32 @@
-# React + TypeScript + Vite
+# NakedBrowser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+what does your browser expose to every site you visit? turns out, a lot.
 
-Currently, two official plugins are available:
+passive recon tool that runs entirely client-side. no server, no tracking, no install. just open it and get existentially uncomfortable.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![NakedBrowser in action](./screenshot.png)
 
-## React Compiler
+## what it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **WebRTC IP leak** — bypasses VPN/proxy to grab your real public IP via ICE candidates
+- **localhost port scan** — fetch() timing side-channel to find open DBs, dev servers, docker daemons
+- **browser fingerprint** — canvas, WebGL renderer, AudioContext, fonts → entropy score
+- **navigator leaks** — CPU threads, device memory, timezone, screen, network type, the works
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+npm install && npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+that's it. runs on http so the port scanner actually works.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## roadmap (shipping nowhere, vibes only)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- [ ] **tool picker** — modular toolbar, enable/disable individual probes, save presets
+- [ ] **live port monitor** — continuous scan mode, alerts when a new service pops up on localhost
+- [ ] **LAN ghost** — subnet sweep via timing side-channels, map your entire local network from a tab
+- [ ] **VPN lie detector** — cross-ref WebRTC IP vs timezone vs DNS resolver to score how badly your VPN is failing you
+- [ ] **satellite mode** — OSINT enrichment on discovered IPs: ASN, geo, abuse reports, reverse DNS. point at yourself, feel watched.
+
+---
+
+built with vite 8 + react 19. no dependencies beyond the browser.
