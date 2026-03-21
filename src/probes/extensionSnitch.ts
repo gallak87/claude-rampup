@@ -42,7 +42,7 @@ export const EXTENSIONS: ExtensionDef[] = [
   {
     name: 'MetaMask',
     category: 'crypto',
-    reveals: 'has an Ethereum wallet',
+    reveals: 'MetaMask extension is installed',
     risk: 'medium',
     method: 'global',
     detect: () => !!(w.ethereum as Record<string, unknown>)?.isMetaMask,
@@ -68,7 +68,7 @@ export const EXTENSIONS: ExtensionDef[] = [
   {
     name: 'Polkadot.js',
     category: 'crypto',
-    reveals: 'has a Polkadot / Substrate wallet',
+    reveals: 'Polkadot.js extension is installed',
     risk: 'medium',
     method: 'global',
     detect: () => !!(w.injectedWeb3 as Record<string, unknown>)?.['polkadot-js'],
@@ -146,14 +146,6 @@ export const EXTENSIONS: ExtensionDef[] = [
     detect: () => probeWAR('pkehgijcmpdhfbdbbnkijodmdjhbjlgp', 'skin/images/icon32.png'),
   },
   {
-    name: 'AdGuard',
-    category: 'privacy',
-    reveals: 'blocks ads and trackers (AdGuard)',
-    risk: 'info',
-    method: 'war',
-    detect: () => probeWAR('bgnkhhnnamicmpeenaelnjfhikgbkllg', 'icons/icon48.png'),
-  },
-  {
     name: 'DuckDuckGo Privacy',
     category: 'privacy',
     reveals: 'uses DuckDuckGo tracker protection',
@@ -202,8 +194,8 @@ export const EXTENSIONS: ExtensionDef[] = [
     category: 'utility',
     reveals: 'uses dark mode extension',
     risk: 'info',
-    method: 'war',
-    detect: () => probeWAR('eimadpbcbfnmbkopoojfekhnkhdbieeh', 'ui/icons/dr_active_48.png'),
+    method: 'dom',
+    detect: () => !!document.querySelector('[data-darkreader-mode]'),
   },
 
   // ── Shopping ─────────────────────────────────────────────────────────────
