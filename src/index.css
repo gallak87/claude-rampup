@@ -186,6 +186,62 @@ html, body, #root {
 .overall-score--critical .overall-score__number,
 .overall-score--critical .overall-score__label { color: var(--risk-critical); }
 
+/* ─── Toolbar ────────────────────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.toolbar__tool {
+  background: none;
+  border: 1px solid transparent;
+  border-bottom: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 7px 20px;
+  letter-spacing: 0.06em;
+  position: relative;
+  bottom: -1px;
+  transition: color 0.15s;
+}
+
+.toolbar__tool:hover:not(.toolbar__tool--locked) {
+  color: var(--text);
+}
+
+.toolbar__tool--active {
+  color: var(--text-head);
+  border-color: var(--border);
+  border-bottom-color: var(--bg);
+  background: var(--bg);
+}
+
+.toolbar__tool--locked {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.toolbar__tool-prefix {
+  margin-right: 5px;
+  color: var(--text-dim);
+}
+
+/* ─── Coming Soon ────────────────────────────────────────────────────────── */
+.coming-soon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--text-dim);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
 /* ─── Probe Grid ─────────────────────────────────────────────────────────── */
 .probe-grid {
   display: grid;

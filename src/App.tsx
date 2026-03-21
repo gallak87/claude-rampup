@@ -1,9 +1,12 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import type { ScanState, ScanAction, ProbeId, ProbeResult } from './types/probe';
 import { useScan } from './hooks/useScan';
 import { ProbeCard } from './components/ProbeCard';
 import { ScanButton } from './components/ScanButton';
 import { OverallScore } from './components/OverallScore';
+import { ToolBar } from './components/ToolBar';
+import { ComingSoon } from './components/ComingSoon';
+import type { ToolId } from './components/ToolBar';
 import './index.css';
 
 function makeProbe(id: ProbeId, label: string): ProbeResult {
@@ -69,6 +72,7 @@ function scanReducer(state: ScanState, action: ScanAction): ScanState {
 
 export default function App() {
   const [state, dispatch] = useReducer(scanReducer, initialState);
+  const [activeTool, setActiveTool] = useState<ToolId>('127.0.0.1');
   const { startScan } = useScan(dispatch);
 
   const hasResults = Object.values(state.probes).some(p => p.status !== 'idle');
@@ -81,20 +85,28 @@ export default function App() {
         <p className="app-subtitle">What does your browser expose to every site you visit?</p>
       </header>
 
-      <ScanButton
-        scanning={state.scanning}
-        hasResults={hasResults}
-        onScan={startScan}
-        onReset={() => dispatch({ type: 'SCAN_RESET' })}
-      />
+      {activeTool === '127.0.0.1' && (
+        <ScanButton
+          scanning={state.scanning}
+          hasResults={hasResults}
+          onScan={startScan}
+          onReset={() => dispatch({ type: 'SCAN_RESET' })}
+        />
+      )}
 
       <OverallScore probes={state.probes} />
 
-      <div className="probe-grid">
-        {(Object.values(state.probes) as ProbeResult[]).map(probe => (
-          <ProbeCard key={probe.id} probe={probe} />
-        ))}
-      </div>
+      <ToolBar active={activeTool} onChange={setActiveTool} />
+
+      {activeTool === '127.0.0.1' && (
+        <div className="probe-grid">
+          {(Object.values(state.probes) as ProbeResult[]).map(probe => (
+            <ProbeCard key={probe.id} probe={probe} />
+          ))}
+        </div>
+      )}
+
+      {activeTool === 'coming-soon' && <ComingSoon />}
 
       <footer className="app-footer">
         runs entirely in your browser · zero requests to external servers
