@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { ToolBar } from './components/ToolBar';
-import { LanGhost } from './tools/LanGhost';
-import { LocalhostScanner } from './tools/LocalhostScanner';
+import { Specter } from './tools/Specter';
 import { RenderTrap } from './tools/RenderTrap';
 import { StorageMap } from './tools/StorageMap';
 import type { ToolId } from './components/ToolBar';
 import './index.css';
 
 export default function App() {
-  const [activeTool, setActiveTool] = useState<ToolId>('langhost');
+  const [activeTool, setActiveTool] = useState<ToolId>('specter');
 
   return (
     <div className="app">
@@ -19,8 +18,7 @@ export default function App() {
 
       <ToolBar active={activeTool} onChange={setActiveTool} />
 
-      {activeTool === 'langhost'   && <LanGhost />}
-      {activeTool === '127.0.0.1' && <LocalhostScanner />}
+      {activeTool === 'specter'    && <Specter />}
       {activeTool === 'rendertrap' && <RenderTrap />}
       {activeTool === 'storagemap' && <StorageMap />}
 

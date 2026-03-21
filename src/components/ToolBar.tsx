@@ -1,17 +1,12 @@
-export type ToolId = 'langhost' | '127.0.0.1' | 'rendertrap' | 'storagemap';
+import { NavBar } from './NavBar';
 
-interface Tool {
-  id: ToolId;
-  label: string;
-  available: boolean;
-}
+export type ToolId = 'specter' | 'rendertrap' | 'storagemap';
 
-const TOOLS: Tool[] = [
-  { id: 'langhost',   label: 'LAN Ghost',   available: true },
-  { id: '127.0.0.1',  label: '127.0.0.1',   available: true },
-  { id: 'rendertrap', label: 'RenderTrap',   available: true },
-  { id: 'storagemap', label: 'StorageMap',   available: true },
-];
+const TOOLS = [
+  { id: 'specter',    label: 'Specter'    },
+  { id: 'rendertrap', label: 'RenderTrap' },
+  { id: 'storagemap', label: 'StorageMap' },
+] as const;
 
 interface ToolBarProps {
   active: ToolId;
@@ -19,19 +14,5 @@ interface ToolBarProps {
 }
 
 export function ToolBar({ active, onChange }: ToolBarProps) {
-  return (
-    <div className="toolbar">
-      {TOOLS.map(tool => (
-        <button
-          key={tool.id}
-          className={`toolbar__tool ${active === tool.id ? 'toolbar__tool--active' : ''} ${!tool.available ? 'toolbar__tool--locked' : ''}`}
-          onClick={() => tool.available && onChange(tool.id)}
-          title={tool.available ? undefined : 'coming soon'}
-        >
-          {!tool.available && <span className="toolbar__tool-prefix">+</span>}
-          {tool.label}
-        </button>
-      ))}
-    </div>
-  );
+  return <NavBar items={TOOLS} active={active} onChange={onChange} variant="main" />;
 }

@@ -4,6 +4,10 @@ import { Card } from '../components/Card';
 import { detectSubnet, sweepSubnet, probeHostPorts } from '../probes/lanSweep';
 import type { LanHost } from '../probes/lanSweep';
 
+interface LanGhostProps {
+  onAliveHostsUpdated?: (hosts: LanHost[]) => void;
+}
+
 type Phase = 'idle' | 'detecting' | 'sweeping' | 'probing' | 'done';
 
 interface LanState {
@@ -27,7 +31,7 @@ const initialState: LanState = {
   hosts: EMPTY_HOSTS,
 };
 
-export function LanGhost() {
+export function LanGhost({ onAliveHostsUpdated }: LanGhostProps = {}) {
   const [state, setState] = useState<LanState>(initialState);
   const [openIps, setOpenIps] = useState<Set<string>>(new Set());
 
@@ -69,6 +73,11 @@ export function LanGhost() {
     });
 
     setState(s => ({ ...s, phase: 'probing' }));
+
+    onAliveHostsUpdated?.(aliveOctets.map(octet => ({
+      ip: `${subnet}.${octet}`,
+      status: 'alive' as const,
+    })));
 
     await Promise.all(aliveOctets.map(async (octet) => {
       const ip = `${subnet}.${octet}`;
