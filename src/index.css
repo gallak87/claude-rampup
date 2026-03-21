@@ -43,6 +43,25 @@ html, body, #root {
 
 /* ─── Header ─────────────────────────────────────────────────────────────── */
 .app-header {
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.app-header > img {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-42%);
+  width: auto;
+  /* keep it behind the tab strip so it doesn't occlude nav clicks */
+  z-index: 0;
+}
+
+.app-header__text {
   display: flex;
   flex-direction: column;
   gap: 8px;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ToolBar } from './components/ToolBar';
+import { CanaryBird } from './components/CanaryBird';
 import { Specter } from './tools/Specter';
 import { Snitch } from './tools/Snitch';
 import { RenderTrap } from './tools/RenderTrap';
@@ -13,8 +14,11 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">Canary<span className="app-title__cursor">_</span></h1>
-        <p className="app-subtitle">What does your browser expose to every site you visit?</p>
+        <div className="app-header__text">
+          <h1 className="app-title">Canary<span className="app-title__cursor">_</span></h1>
+          <p className="app-subtitle">What does your browser expose to every site you visit?</p>
+        </div>
+        <CanaryBird size={160} />
       </header>
 
       <ToolBar active={activeTool} onChange={setActiveTool} />

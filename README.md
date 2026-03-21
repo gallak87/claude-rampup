@@ -1,5 +1,9 @@
 # Canary
 
+<p align="center">
+  <img src="src/assets/canary.png" width="220" alt="Canary" />
+</p>
+
 what does your browser expose to every site you visit? turns out, a lot.
 
 ```
