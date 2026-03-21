@@ -397,6 +397,58 @@ html, body, #root {
   padding-top: 2px;
 }
 
+/* ─── Headers Panel ──────────────────────────────────────────────────────── */
+.headers-toggle {
+  background: none;
+  border: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 1px 4px;
+  border: 1px solid var(--border);
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.headers-toggle:hover,
+.headers-toggle--open {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.headers-panel {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.headers-row {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr;
+  gap: 0 12px;
+  padding: 3px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.headers-row:last-child { border-bottom: none; }
+
+.headers-row__key {
+  color: var(--text-dim);
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.headers-row__val {
+  color: var(--text-bright);
+  word-break: break-all;
+}
+
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 .app-footer {
   font-size: 11px;

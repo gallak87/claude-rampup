@@ -21,6 +21,7 @@ export interface Finding {
   value: string;
   risk: RiskLevel;
   detail?: string;
+  headers?: Record<string, string>;
 }
 
 export type ProbeStatus = 'idle' | 'running' | 'done' | 'error';

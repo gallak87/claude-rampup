@@ -45,6 +45,23 @@ interface PortResult {
   latencyMs: number;
 }
 
+async function fetchHeaders(port: number): Promise<Record<string, string>> {
+  try {
+    const ac = new AbortController();
+    setTimeout(() => ac.abort(), 2000);
+    const res = await fetch(`http://127.0.0.1:${port}`, {
+      method: 'GET',
+      signal: ac.signal,
+      cache: 'no-store',
+    });
+    const headers: Record<string, string> = {};
+    res.headers.forEach((val, key) => { headers[key] = val; });
+    return Object.keys(headers).length ? headers : { '(none)': 'server returned no headers' };
+  } catch {
+    return { '(blocked)': 'CORS policy — server did not allow cross-origin header access' };
+  }
+}
+
 async function probePort(spec: PortSpec): Promise<PortResult> {
   if (BROWSER_BLOCKED_PORTS.has(spec.port)) {
     return { ...spec, status: 'browser-blocked', latencyMs: 0 };
@@ -103,11 +120,13 @@ export async function probePortScan(
     const r = settled.value;
 
     if (r.status === 'open') {
+      const headers = await fetchHeaders(r.port);
       findings.push({
         label: `${r.port} — ${r.service}`,
         value: `OPEN (${r.latencyMs}ms)`,
         risk: r.risk,
         detail: `Responding on http://127.0.0.1:${r.port}`,
+        headers,
       });
     } else if (r.status === 'timeout') {
       findings.push({
