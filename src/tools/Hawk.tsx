@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Globe from 'globe.gl';
+import * as THREE from 'three';
 import { generateEvent, severityColor, fmtTime, type ThreatEvent } from './threatFeed';
 
 const MAX_FEED = 60;
@@ -14,13 +15,14 @@ const MONTHS = [
 type Mode = 'rotate' | 'timelapse';
 
 export function Hawk() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const globeRef     = useRef<ReturnType<typeof Globe> | null>(null);
-  const arcsRef      = useRef<ThreatEvent[]>([]);
-  const [feed, setFeed]       = useState<ThreatEvent[]>([]);
-  const [mode, setMode]       = useState<Mode>('rotate');
-  const [playing, setPlaying] = useState(true);
-  const [fps, setFps]         = useState(4);
+  const containerRef  = useRef<HTMLDivElement>(null);
+  const globeRef      = useRef<ReturnType<typeof Globe> | null>(null);
+  const arcsRef       = useRef<ThreatEvent[]>([]);
+  const texturesRef   = useRef<THREE.Texture[]>([]);
+  const [feed, setFeed]         = useState<ThreatEvent[]>([]);
+  const [mode, setMode]         = useState<Mode>('rotate');
+  const [playing, setPlaying]   = useState(true);
+  const [fps, setFps]           = useState(4);
   const [monthIdx, setMonthIdx] = useState(0);
 
   // init globe
@@ -67,6 +69,28 @@ export function Hawk() {
     };
   }, []);
 
+  // preload all 12 month textures into GPU on mount
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    texturesRef.current = MONTHS.map(m =>
+      loader.load(`/blue-marble/4k/${m}.jpg`)
+    );
+    return () => { texturesRef.current.forEach(t => t.dispose()); };
+  }, []);
+
+  // swap globe texture directly via material.map — no URL reload
+  const swapTexture = (idx: number) => {
+    const tex = texturesRef.current[idx];
+    if (!tex || !globeRef.current) return;
+    globeRef.current.scene().traverse((obj: THREE.Object3D) => {
+      if (obj instanceof THREE.Mesh && obj.geometry.type === 'SphereGeometry') {
+        const mat = obj.material as THREE.MeshPhongMaterial;
+        mat.map = tex;
+        mat.needsUpdate = true;
+      }
+    });
+  };
+
   // threat event loop
   useEffect(() => {
     const timer = setInterval(() => {
@@ -97,7 +121,8 @@ export function Hawk() {
       g.controls().autoRotate = playing;
     } else {
       g.controls().autoRotate = false;
-      g.globeImageUrl(`/blue-marble/${MONTHS[monthIdx]}.jpg`);
+      g.arcsData([]);
+      swapTexture(monthIdx);
     }
   }, [mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -113,8 +138,8 @@ export function Hawk() {
   // swap texture on month change
   useEffect(() => {
     if (mode !== 'timelapse') return;
-    globeRef.current?.globeImageUrl(`/blue-marble/${MONTHS[monthIdx]}.jpg`);
-  }, [monthIdx, mode]);
+    swapTexture(monthIdx);
+  }, [monthIdx, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const monthLabel = MONTHS[monthIdx].slice(0, 3).toUpperCase();
 
