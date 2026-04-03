@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Globe from 'globe.gl';
 import * as THREE from 'three';
 import { generateEvent, severityColor, fmtTime, type ThreatEvent } from './threatFeed';
+import { CAM_FEEDS, type CamFeed } from './camFeeds';
 
 const MAX_FEED = 60;
 const ARC_TTL  = 4000;
@@ -12,7 +13,7 @@ const MONTHS = [
   'july','august','september','october','november','december',
 ];
 
-type Mode = 'rotate' | 'timelapse';
+type Mode = 'rotate' | 'timelapse' | 'cams';
 
 export function Hawk() {
   const containerRef  = useRef<HTMLDivElement>(null);
@@ -29,6 +30,7 @@ export function Hawk() {
   const [showArcs, setShowArcs] = useState(true);
   const [showFeed, setShowFeed] = useState(true);
   const [showAtmo, setShowAtmo] = useState(true);
+  const [activeCam, setActiveCam] = useState<CamFeed | null>(null);
 
   // init globe
   useEffect(() => {
@@ -55,7 +57,14 @@ export function Hawk() {
       .arcDashGap(0.15)
       .arcDashAnimateTime(ARC_TTL * 0.9)
       .arcStroke(0.4)
-      .arcAltitudeAutoScale(0.35);
+      .arcAltitudeAutoScale(0.35)
+      .pointsData([])
+      .pointLat((d: object) => (d as CamFeed).lat)
+      .pointLng((d: object) => (d as CamFeed).lng)
+      .pointColor(() => '#00e87a')
+      .pointAltitude(0.01)
+      .pointRadius(0.4)
+      .onPointClick((d: object) => setActiveCam(d as CamFeed));
 
     globe.controls().autoRotate      = true;
     globe.controls().autoRotateSpeed = 0.4;
@@ -143,10 +152,19 @@ export function Hawk() {
     if (mode === 'rotate') {
       g.globeImageUrl('/marble.jpg');
       g.controls().autoRotate = playing;
-    } else {
+      g.pointsData([]);
+      setActiveCam(null);
+    } else if (mode === 'timelapse') {
       g.controls().autoRotate = false;
       g.arcsData([]);
+      g.pointsData([]);
+      setActiveCam(null);
       swapTexture(monthIdx);
+    } else {
+      g.globeImageUrl('/marble.jpg');
+      g.controls().autoRotate = true;
+      g.arcsData([]);
+      g.pointsData(CAM_FEEDS);
     }
   }, [mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -182,11 +200,15 @@ export function Hawk() {
             className={`hawk__ctrl-mode${mode === 'timelapse' ? ' hawk__ctrl-mode--active' : ''}`}
             onClick={() => setMode('timelapse')}
           >SEASONS</button>
+          <button
+            className={`hawk__ctrl-mode${mode === 'cams' ? ' hawk__ctrl-mode--active' : ''}`}
+            onClick={() => setMode('cams')}
+          >CAMS</button>
           <button className="hawk__ctrl-play" onClick={() => setPlaying(p => !p)}>
             {playing ? '⏸' : '▶'}
           </button>
         </div>
-        {mode === 'timelapse' ? (
+        {mode === 'cams' ? null : mode === 'timelapse' ? (
           <div className="hawk__controls-row hawk__controls-row--slider">
             <span className="hawk__month">{monthLabel}</span>
             <input
@@ -204,6 +226,31 @@ export function Hawk() {
           </div>
         )}
       </div>
+
+      {/* Cam panel */}
+      {mode === 'cams' && (
+        <aside className="hawk__feed">
+          <div className="hawk__feed-header">
+            <span className="hawk__feed-title">{activeCam ? activeCam.name.toUpperCase() : 'LIVE CAMS'}</span>
+            {activeCam && <button className="hawk__cam-close" onClick={() => setActiveCam(null)}>✕</button>}
+          </div>
+          {activeCam ? (
+            <div className="hawk__cam-player">
+              <iframe
+                src={`https://www.youtube.com/embed/${activeCam.youtubeId}?autoplay=1&mute=1`}
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                className="hawk__cam-iframe"
+              />
+              <p className="hawk__cam-location">{activeCam.location}</p>
+            </div>
+          ) : (
+            <div className="hawk__cam-empty">
+              <p>click a pin on the globe</p>
+            </div>
+          )}
+        </aside>
+      )}
 
       {/* Feed — rotate mode + showFeed only */}
       {mode === 'rotate' && showFeed && <aside className="hawk__feed">

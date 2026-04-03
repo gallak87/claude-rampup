@@ -308,6 +308,46 @@ html, body, #root {
   margin: 0 4px;
 }
 
+/* Cam panel */
+.hawk__cam-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+  line-height: 1;
+}
+.hawk__cam-close:hover { color: var(--text-bright); }
+
+.hawk__cam-player {
+  display: flex;
+  flex-direction: column;
+}
+
+.hawk__cam-iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
+}
+
+.hawk__cam-location {
+  padding: 8px 14px;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.hawk__cam-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 11px;
+  padding: 24px;
+}
+
 /* ─── Layout ─────────────────────────────────────────────────────────────── */
 .app {
   max-width: 1100px;
