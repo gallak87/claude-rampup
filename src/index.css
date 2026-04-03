@@ -116,6 +116,7 @@ html, body, #root {
   position: absolute;
   top: 20px;
   right: 150px;
+  width: 260px;
   background: rgba(13, 15, 20, 0.82);
   border: 1px solid var(--border);
   border-radius: 6px;

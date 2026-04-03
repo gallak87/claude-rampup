@@ -168,17 +168,15 @@ export function Hawk() {
             {playing ? '⏸' : '▶'}
           </button>
         </div>
-        {mode === 'timelapse' && (
-          <div className="hawk__controls-row hawk__controls-row--slider">
-            <span className="hawk__month">{monthLabel}</span>
-            <input
-              type="range" min={1} max={12} value={fps}
-              onChange={e => setFps(Number(e.target.value))}
-              className="hawk__slider"
-            />
-            <span className="hawk__fps">{fps}fps</span>
-          </div>
-        )}
+        <div className="hawk__controls-row hawk__controls-row--slider" style={{ visibility: mode === 'timelapse' ? 'visible' : 'hidden' }}>
+          <span className="hawk__month">{monthLabel}</span>
+          <input
+            type="range" min={1} max={12} value={fps}
+            onChange={e => setFps(Number(e.target.value))}
+            className="hawk__slider"
+          />
+          <span className="hawk__fps">{fps}fps</span>
+        </div>
       </div>
 
       {/* Feed — rotate mode only */}
