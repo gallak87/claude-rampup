@@ -19,6 +19,7 @@ export function Hawk() {
   const globeRef      = useRef<ReturnType<typeof Globe> | null>(null);
   const arcsRef       = useRef<ThreatEvent[]>([]);
   const texturesRef   = useRef<THREE.Texture[]>([]);
+  const modeRef       = useRef<Mode>('rotate');
   const [feed, setFeed]         = useState<ThreatEvent[]>([]);
   const [mode, setMode]         = useState<Mode>('rotate');
   const [playing, setPlaying]   = useState(true);
@@ -95,16 +96,21 @@ export function Hawk() {
   useEffect(() => {
     const timer = setInterval(() => {
       const evt = generateEvent();
-      arcsRef.current = [...arcsRef.current, evt];
-      globeRef.current?.arcsData(arcsRef.current);
-      setTimeout(() => {
-        arcsRef.current = arcsRef.current.filter(a => a.id !== evt.id);
+      if (modeRef.current === 'rotate') {
+        arcsRef.current = [...arcsRef.current, evt];
         globeRef.current?.arcsData(arcsRef.current);
-      }, ARC_TTL);
+        setTimeout(() => {
+          arcsRef.current = arcsRef.current.filter(a => a.id !== evt.id);
+          globeRef.current?.arcsData(arcsRef.current);
+        }, ARC_TTL);
+      }
       setFeed(prev => [evt, ...prev].slice(0, MAX_FEED));
     }, INTERVAL);
     return () => clearInterval(timer);
   }, []);
+
+  // keep modeRef in sync
+  useEffect(() => { modeRef.current = mode; }, [mode]);
 
   // rotation pause/play
   useEffect(() => {
