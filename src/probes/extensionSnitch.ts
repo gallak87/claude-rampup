@@ -35,6 +35,7 @@ async function probeWAR(extensionId: string, resourcePath: string): Promise<bool
   }
 }
 
+// @ts-expect-error
 const w = window as Record<string, unknown>;
 
 export const EXTENSIONS: ExtensionDef[] = [
