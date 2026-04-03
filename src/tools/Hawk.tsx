@@ -63,7 +63,7 @@ export function Hawk() {
       .pointLng((d: object) => (d as CamFeed).lng)
       .pointColor(() => '#00e87a')
       .pointAltitude(0.01)
-      .pointRadius(0.4)
+      .pointRadius(0.6)
       .onPointClick((d: object) => setActiveCam(d as CamFeed));
 
     globe.controls().autoRotate      = true;
@@ -141,7 +141,7 @@ export function Hawk() {
 
   // rotation pause/play
   useEffect(() => {
-    if (!globeRef.current || mode !== 'rotate') return;
+    if (!globeRef.current || mode === 'timelapse') return;
     globeRef.current.controls().autoRotate = playing;
   }, [playing, mode]);
 
@@ -162,9 +162,10 @@ export function Hawk() {
       swapTexture(monthIdx);
     } else {
       g.globeImageUrl('/marble.jpg');
-      g.controls().autoRotate = true;
+      g.controls().autoRotate = false;
       g.arcsData([]);
       g.pointsData(CAM_FEEDS);
+      setPlaying(false);
     }
   }, [mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
