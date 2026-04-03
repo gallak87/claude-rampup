@@ -98,37 +98,10 @@ html, body, #root {
   text-transform: uppercase;
 }
 
-/* ─── Hawk placeholder ───────────────────────────────────────────────────── */
+/* ─── Hawk ───────────────────────────────────────────────────────────────── */
 .hawk {
-  display: flex;
+  width: 100%;
   height: 100vh;
-  align-items: center;
-  justify-content: center;
-}
-
-.hawk__placeholder {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.hawk__label {
-  font-size: clamp(32px, 6vw, 64px);
-  font-weight: 700;
-  color: var(--text-head);
-  letter-spacing: -0.03em;
-}
-
-.hawk__label::after {
-  content: '_';
-  color: var(--accent);
-  animation: blink 1.1s step-end infinite;
-}
-
-.hawk__sub {
-  color: var(--text-dim);
-  font-size: 13px;
 }
 
 /* ─── Layout ─────────────────────────────────────────────────────────────── */
