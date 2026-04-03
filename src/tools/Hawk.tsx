@@ -20,11 +20,15 @@ export function Hawk() {
   const arcsRef       = useRef<ThreatEvent[]>([]);
   const texturesRef   = useRef<THREE.Texture[]>([]);
   const modeRef       = useRef<Mode>('rotate');
+  const showArcsRef   = useRef(true);
   const [feed, setFeed]         = useState<ThreatEvent[]>([]);
   const [mode, setMode]         = useState<Mode>('rotate');
   const [playing, setPlaying]   = useState(true);
   const [fps, setFps]           = useState(4);
   const [monthIdx, setMonthIdx] = useState(0);
+  const [showArcs, setShowArcs] = useState(true);
+  const [showFeed, setShowFeed] = useState(true);
+  const [showAtmo, setShowAtmo] = useState(true);
 
   // init globe
   useEffect(() => {
@@ -96,7 +100,7 @@ export function Hawk() {
   useEffect(() => {
     const timer = setInterval(() => {
       const evt = generateEvent();
-      if (modeRef.current === 'rotate') {
+      if (modeRef.current === 'rotate' && showArcsRef.current) {
         arcsRef.current = [...arcsRef.current, evt];
         globeRef.current?.arcsData(arcsRef.current);
         setTimeout(() => {
@@ -109,8 +113,22 @@ export function Hawk() {
     return () => clearInterval(timer);
   }, []);
 
-  // keep modeRef in sync
+  // keep refs in sync
   useEffect(() => { modeRef.current = mode; }, [mode]);
+  useEffect(() => { showArcsRef.current = showArcs; }, [showArcs]);
+
+  // toggle arcs on/off immediately
+  useEffect(() => {
+    if (!showArcs) {
+      arcsRef.current = [];
+      globeRef.current?.arcsData([]);
+    }
+  }, [showArcs]);
+
+  // toggle atmosphere
+  useEffect(() => {
+    globeRef.current?.atmosphereAltitude(showAtmo ? 0.15 : 0);
+  }, [showAtmo]);
 
   // rotation pause/play
   useEffect(() => {
@@ -168,19 +186,27 @@ export function Hawk() {
             {playing ? '⏸' : '▶'}
           </button>
         </div>
-        <div className="hawk__controls-row hawk__controls-row--slider" style={{ visibility: mode === 'timelapse' ? 'visible' : 'hidden' }}>
-          <span className="hawk__month">{monthLabel}</span>
-          <input
-            type="range" min={1} max={12} value={fps}
-            onChange={e => setFps(Number(e.target.value))}
-            className="hawk__slider"
-          />
-          <span className="hawk__fps">{fps}fps</span>
-        </div>
+        {mode === 'timelapse' ? (
+          <div className="hawk__controls-row hawk__controls-row--slider">
+            <span className="hawk__month">{monthLabel}</span>
+            <input
+              type="range" min={1} max={12} value={fps}
+              onChange={e => setFps(Number(e.target.value))}
+              className="hawk__slider"
+            />
+            <span className="hawk__fps">{fps}fps</span>
+          </div>
+        ) : (
+          <div className="hawk__controls-row">
+            <button className={`hawk__ctrl-mode${showArcs ? ' hawk__ctrl-mode--active' : ''}`} onClick={() => setShowArcs(p => !p)}>ARCS</button>
+            <button className={`hawk__ctrl-mode${showFeed ? ' hawk__ctrl-mode--active' : ''}`} onClick={() => setShowFeed(p => !p)}>FEED</button>
+            <button className={`hawk__ctrl-mode${showAtmo ? ' hawk__ctrl-mode--active' : ''}`} onClick={() => setShowAtmo(p => !p)}>ATMO</button>
+          </div>
+        )}
       </div>
 
-      {/* Feed — rotate mode only */}
-      {mode === 'rotate' && <aside className="hawk__feed">
+      {/* Feed — rotate mode + showFeed only */}
+      {mode === 'rotate' && showFeed && <aside className="hawk__feed">
         <div className="hawk__feed-header">
           <span className="hawk__feed-title">THREAT FEED</span>
           <span className="hawk__feed-live">● LIVE</span>
