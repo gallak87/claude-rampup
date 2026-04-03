@@ -111,6 +111,96 @@ html, body, #root {
   height: 100%;
 }
 
+/* Controls panel */
+.hawk__controls {
+  position: absolute;
+  top: 20px;
+  right: 150px;
+  background: rgba(13, 15, 20, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hawk__controls-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+}
+
+.hawk__controls-row + .hawk__controls-row {
+  border-top: 1px solid var(--border);
+}
+
+.hawk__controls-row--slider {
+  gap: 8px;
+}
+
+.hawk__ctrl-mode {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.hawk__ctrl-mode:hover { color: var(--text-bright); }
+
+.hawk__ctrl-mode--active {
+  color: var(--accent);
+  border-color: var(--border);
+  background: var(--surface-alt);
+}
+
+.hawk__ctrl-play {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-bright);
+  font-size: 11px;
+  width: 28px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  transition: background 0.15s;
+}
+
+.hawk__ctrl-play:hover { background: var(--surface-alt); }
+
+.hawk__month {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  width: 28px;
+}
+
+.hawk__slider {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.hawk__fps {
+  font-size: 10px;
+  color: var(--text-dim);
+  width: 30px;
+  text-align: right;
+}
+
 /* Feed panel */
 .hawk__feed {
   position: absolute;
