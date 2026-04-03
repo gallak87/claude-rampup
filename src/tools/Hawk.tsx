@@ -251,7 +251,7 @@ export function Hawk() {
       {/* Feed — rotate mode + showFeed only */}
       {mode === 'rotate' && showFeed && <aside className="hawk__feed">
         <div className="hawk__feed-header">
-          <span className="hawk__feed-title">THREAT FEED</span>
+          <span className="hawk__feed-title">THREAT FEED (fake data)</span>
           <span className="hawk__feed-live">● LIVE</span>
         </div>
         <div className="hawk__feed-list">

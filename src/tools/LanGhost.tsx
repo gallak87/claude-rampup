@@ -106,6 +106,9 @@ export function LanGhost({ onAliveHostsUpdated }: LanGhostProps = {}) {
     <div className="langhost">
       <div className="rendertrap__header">
         <p className="rendertrap__desc">
+          start a scan, then click on satellite to enrich
+        </p>
+        <p className="rendertrap__desc">
           maps your local network from a browser tab — no extensions, no permissions.
           fetch() timing reveals which hosts are alive.
         </p>

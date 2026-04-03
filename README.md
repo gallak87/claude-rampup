@@ -51,6 +51,19 @@ maps every persistence vector this origin can use: localStorage, sessionStorage,
 
 
 
+## hawk
+
+Globe dashboard, lives in the sidebar next to Canary. Three modes:
+
+- **Spotter** — spinning globe, fake threat feed with animated arcs. Layer toggles: ARCS / FEED / ATMO.
+- **Seasons** — cycles through 12 NASA Blue Marble monthly textures (4K, locally hosted). Slider controls fps.
+- **Cams** — globe pins for live public MJPEG camera feeds. Click a pin to load the stream in the side panel.
+
+### hawk TODO
+- [ ] **Cams: add real streams** — `src/tools/camFeeds.ts` is wired up, array is empty. Add `{ id, name, location, lat, lng, mjpegUrl }` entries — was going to grab one from explore.org + one from windy.com.
+- [ ] **Face recognition tool** — webcam feed + bounding boxes + fake identity match panels (face-api.js or MediaPipe). Parked, on-brand with Canary.
+- [ ] **Real threat data** — swap fake arc feed for a real source (AbuseIPDB, OpenSky, etc.)
+
 ## roadmap (shipping nowhere, vibes only)
 
 - [ ] **VPN lie detector** — cross-ref WebRTC IP vs timezone vs DNS resolver to score how badly your VPN is failing you
