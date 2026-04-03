@@ -62,8 +62,8 @@ export function Hawk() {
       .pointLat((d: object) => (d as CamFeed).lat)
       .pointLng((d: object) => (d as CamFeed).lng)
       .pointColor(() => '#00e87a')
-      .pointAltitude(0.01)
-      .pointRadius(0.6)
+      .pointAltitude(0.04)
+      .pointRadius(0.8)
       .onPointClick((d: object) => setActiveCam(d as CamFeed));
 
     globe.controls().autoRotate      = false;
@@ -237,12 +237,7 @@ export function Hawk() {
           </div>
           {activeCam ? (
             <div className="hawk__cam-player">
-              <iframe
-                src={`https://www.youtube.com/embed/${activeCam.youtubeId}?autoplay=1&mute=1`}
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                className="hawk__cam-iframe"
-              />
+              <img src={activeCam.mjpegUrl} className="hawk__cam-iframe" alt={activeCam.name} />
               <p className="hawk__cam-location">{activeCam.location}</p>
             </div>
           ) : (
