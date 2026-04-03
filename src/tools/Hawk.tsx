@@ -159,11 +159,11 @@ export function Hawk() {
           <button
             className={`hawk__ctrl-mode${mode === 'rotate' ? ' hawk__ctrl-mode--active' : ''}`}
             onClick={() => setMode('rotate')}
-          >ROTATE</button>
+          >SPOTTER</button>
           <button
             className={`hawk__ctrl-mode${mode === 'timelapse' ? ' hawk__ctrl-mode--active' : ''}`}
             onClick={() => setMode('timelapse')}
-          >TIME·LAPSE</button>
+          >SEASONS</button>
           <button className="hawk__ctrl-play" onClick={() => setPlaying(p => !p)}>
             {playing ? '⏸' : '▶'}
           </button>
