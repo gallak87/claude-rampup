@@ -100,8 +100,120 @@ html, body, #root {
 
 /* ─── Hawk ───────────────────────────────────────────────────────────────── */
 .hawk {
+  position: relative;
   width: 100%;
   height: 100vh;
+  overflow: hidden;
+}
+
+.hawk__globe {
+  width: 100%;
+  height: 100%;
+}
+
+/* Feed panel */
+.hawk__feed {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 320px;
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(13, 15, 20, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.hawk__feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.hawk__feed-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-bright);
+}
+
+.hawk__feed-live {
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.hawk__feed-list {
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+}
+
+.hawk__event {
+  padding: 7px 14px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s;
+}
+
+.hawk__event:hover { background: rgba(255,255,255,0.03); }
+
+.hawk__event--low  { border-left-color: var(--risk-low); }
+.hawk__event--med  { border-left-color: var(--risk-medium); }
+.hawk__event--high { border-left-color: var(--risk-high); }
+.hawk__event--crit { border-left-color: var(--risk-critical); }
+
+.hawk__event-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.hawk__event-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.hawk__event--low  .hawk__event-badge { color: var(--risk-low); }
+.hawk__event--med  .hawk__event-badge { color: var(--risk-medium); }
+.hawk__event--high .hawk__event-badge { color: var(--risk-high); }
+.hawk__event--crit .hawk__event-badge { color: var(--risk-critical); }
+
+.hawk__event-type {
+  font-size: 11px;
+  color: var(--text-bright);
+  flex: 1;
+}
+
+.hawk__event-time {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.hawk__event-ips {
+  font-size: 10px;
+  color: var(--text);
+}
+
+.hawk__arrow {
+  color: var(--text-dim);
+  margin: 0 4px;
 }
 
 /* ─── Layout ─────────────────────────────────────────────────────────────── */
