@@ -24,7 +24,7 @@ export function Hawk() {
   const showArcsRef   = useRef(true);
   const [feed, setFeed]         = useState<ThreatEvent[]>([]);
   const [mode, setMode]         = useState<Mode>('rotate');
-  const [playing, setPlaying]   = useState(true);
+  const [playing, setPlaying]   = useState(false);
   const [fps, setFps]           = useState(4);
   const [monthIdx, setMonthIdx] = useState(0);
   const [showArcs, setShowArcs] = useState(true);
@@ -66,7 +66,7 @@ export function Hawk() {
       .pointRadius(0.6)
       .onPointClick((d: object) => setActiveCam(d as CamFeed));
 
-    globe.controls().autoRotate      = true;
+    globe.controls().autoRotate      = false;
     globe.controls().autoRotateSpeed = 0.4;
     globe.controls().enableDamping   = true;
 
