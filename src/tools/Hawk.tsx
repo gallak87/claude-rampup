@@ -130,6 +130,13 @@ export function Hawk() {
     return () => clearInterval(timer);
   }, []);
 
+  // esc dismisses active cam
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setActiveCam(null); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
   // keep refs in sync
   useEffect(() => { modeRef.current = mode; }, [mode]);
   useEffect(() => { showArcsRef.current = showArcs; }, [showArcs]);
