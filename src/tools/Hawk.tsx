@@ -209,8 +209,12 @@ export function Hawk() {
         ref={containerRef}
         className="hawk__globe"
         onClick={focused ? () => setActiveCam(null) : undefined}
-        title={focused ? 'Click to dismiss' : undefined}
       />
+      {focused && (
+        <div className="hawk__pip-overlay">
+          <span className="hawk__pip-hint">ESC</span>
+        </div>
+      )}
 
       {/* Controls */}
       <div className="hawk__controls">
