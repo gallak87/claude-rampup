@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Globe from 'globe.gl';
 import * as THREE from 'three';
 import { generateEvent, severityColor, fmtTime, type ThreatEvent } from './threatFeed';
@@ -23,6 +23,7 @@ export function Hawk() {
   const texturesRef   = useRef<THREE.Texture[]>([]);
   const modeRef       = useRef<Mode>('rotate');
   const showArcsRef   = useRef(true);
+  const selectCamRef  = useRef<(f: CamFeed) => void>(() => {});
   const [feed, setFeed]         = useState<ThreatEvent[]>([]);
   const [mode, setMode]         = useState<Mode>('cams');
   const [playing, setPlaying]   = useState(false);
@@ -32,6 +33,12 @@ export function Hawk() {
   const [showFeed, setShowFeed] = useState(true);
   const [showAtmo, setShowAtmo] = useState(true);
   const [activeCam, setActiveCam] = useState<CamFeed | null>(null);
+
+  const selectCam = useCallback((feed: CamFeed) => {
+    globeRef.current?.pointOfView({ lat: feed.lat, lng: feed.lng, altitude: 1.5 }, 600);
+    setTimeout(() => setActiveCam(feed), 600);
+  }, []);
+  selectCamRef.current = selectCam;
 
   // init globe
   useEffect(() => {
@@ -65,7 +72,7 @@ export function Hawk() {
       .pointColor(() => '#00e87a')
       .pointAltitude(0.04)
       .pointRadius(0.8)
-      .onPointClick((d: object) => setActiveCam(d as CamFeed));
+      .onPointClick((d: object) => selectCamRef.current(d as CamFeed));
 
     globe.controls().autoRotate      = false;
     globe.controls().autoRotateSpeed = 0.4;
@@ -251,7 +258,7 @@ export function Hawk() {
           ) : (
             <div className="hawk__cam-list">
               {CAM_FEEDS.map(feed => (
-                <button key={feed.id} className="hawk__cam-row" onClick={() => setActiveCam(feed)}>
+                <button key={feed.id} className="hawk__cam-row" onClick={() => selectCam(feed)}>
                   <span className="hawk__cam-row-name">{feed.name}</span>
                   <span className="hawk__cam-row-loc">{feed.location}</span>
                 </button>
