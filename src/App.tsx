@@ -11,7 +11,7 @@ const APPS: { id: AppId; label: string }[] = [
 ];
 
 export default function App() {
-  const [activeApp, setActiveApp] = useState<AppId>('canary');
+  const [activeApp, setActiveApp] = useState<AppId>('hawk');
 
   return (
     <div className="shell">
