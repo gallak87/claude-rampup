@@ -13,6 +13,30 @@ export interface CamFeed {
 
 export const CAM_FEEDS: CamFeed[] = [
   {
+    id: 'niagara-falls',
+    name: 'Niagara Falls',
+    location: 'Ontario, Canada',
+    lat: 43.0896,
+    lng: -79.0849,
+    streamUrl: '/ec-proxy/fecnetwork/15527.flv/playlist.m3u8?t=rTpEtwAFUW0%2BXz8YVqXGLgc1t%2FIlFVoqI8yJCFh1LQktKWJQnKRG9BXPf%2BjVyWey&td=202604102021',
+  },
+  {
+    id: 'cn-tower',
+    name: 'CN Tower',
+    location: 'Toronto, Canada',
+    lat: 43.6426,
+    lng: -79.3871,
+    streamUrl: '/ec-proxy/fecnetwork/9298.flv/playlist.m3u8?t=j3sQ8m%2Bs03ft5uiPPqbTiB3%2Bjo5AWwWjacV9DvtPNvqrmxwfnk3cQOR9Kok2giOe&td=202604102023',
+  },
+  {
+    id: 'broadway-nashville',
+    name: 'Broadway',
+    location: 'Nashville, TN',
+    lat: 36.1627,
+    lng: -86.7816,
+    streamUrl: '/ec-proxy/fecnetwork/24935.flv/playlist.m3u8?t=mexLmPaUse3br05vrUOgWmHCY3zSSIm2XkB8hKYeViRNneTN4KlMH6DBCGDaoMsZ&td=202604102024',
+  },
+  {
     id: 'chicago-skydeck',
     name: 'Chicago Skydeck',
     location: 'Chicago, IL',
