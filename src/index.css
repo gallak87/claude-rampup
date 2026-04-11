@@ -400,14 +400,38 @@ html, body, #root {
   color: var(--text-dim);
 }
 
-.hawk__cam-empty {
+.hawk__cam-list {
   flex: 1;
+  overflow-y: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dim);
+  flex-direction: column;
+}
+
+.hawk__cam-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.hawk__cam-row:hover { background: rgba(255,255,255,0.04); }
+
+.hawk__cam-row-name {
   font-size: 11px;
-  padding: 24px;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: 0.04em;
+}
+
+.hawk__cam-row-loc {
+  font-size: 10px;
+  color: var(--text-dim);
 }
 
 /* ─── Layout ─────────────────────────────────────────────────────────────── */

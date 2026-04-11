@@ -249,8 +249,13 @@ export function Hawk() {
               <p className="hawk__cam-location">{activeCam.location}</p>
             </div>
           ) : (
-            <div className="hawk__cam-empty">
-              <p>click a pin on the globe</p>
+            <div className="hawk__cam-list">
+              {CAM_FEEDS.map(feed => (
+                <button key={feed.id} className="hawk__cam-row" onClick={() => setActiveCam(feed)}>
+                  <span className="hawk__cam-row-name">{feed.name}</span>
+                  <span className="hawk__cam-row-loc">{feed.location}</span>
+                </button>
+              ))}
             </div>
           )}
         </aside>
