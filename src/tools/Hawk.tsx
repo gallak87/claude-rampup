@@ -24,7 +24,7 @@ export function Hawk() {
   const modeRef       = useRef<Mode>('rotate');
   const showArcsRef   = useRef(true);
   const [feed, setFeed]         = useState<ThreatEvent[]>([]);
-  const [mode, setMode]         = useState<Mode>('rotate');
+  const [mode, setMode]         = useState<Mode>('cams');
   const [playing, setPlaying]   = useState(false);
   const [fps, setFps]           = useState(4);
   const [monthIdx, setMonthIdx] = useState(0);
@@ -187,9 +187,16 @@ export function Hawk() {
 
   const monthLabel = MONTHS[monthIdx].slice(0, 3).toUpperCase();
 
+  const focused = mode === 'cams' && activeCam !== null;
+
   return (
-    <div className="hawk">
-      <div ref={containerRef} className="hawk__globe" />
+    <div className={`hawk${focused ? ' hawk--focused' : ''}`}>
+      <div
+        ref={containerRef}
+        className="hawk__globe"
+        onClick={focused ? () => setActiveCam(null) : undefined}
+        title={focused ? 'Click to dismiss' : undefined}
+      />
 
       {/* Controls */}
       <div className="hawk__controls">

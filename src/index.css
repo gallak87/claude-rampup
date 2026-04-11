@@ -109,6 +109,68 @@ html, body, #root {
 .hawk__globe {
   width: 100%;
   height: 100%;
+  transition: width 0.35s ease, height 0.35s ease;
+}
+
+/* ── PiP focused state ─────────────────────────────── */
+.hawk--focused .hawk__globe {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 280px;
+  height: 158px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  z-index: 10;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+}
+
+.hawk--focused .hawk__feed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  border: none;
+}
+
+.hawk--focused .hawk__feed-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(13,15,20,0.85) 0%, transparent 100%);
+  border-bottom: none;
+}
+
+.hawk--focused .hawk__cam-player {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.hawk--focused .hawk__cam-iframe {
+  aspect-ratio: unset;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hawk--focused .hawk__cam-location {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 20px 16px;
+  background: linear-gradient(to top, rgba(13,15,20,0.8) 0%, transparent 100%);
+  font-size: 13px;
+  color: var(--text-bright);
+  letter-spacing: 0.06em;
 }
 
 /* Controls panel */
