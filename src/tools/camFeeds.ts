@@ -93,6 +93,14 @@ export const CAM_FEEDS: CamFeed[] = [
     streamUrl: '/ec-proxy/fecnetwork/38148.flv/playlist.m3u8?t=c8kolm9Nh5XwziJhiq4n25Ide5dLX7rPBmkz4D8rjBO2JogPEDyyQyuU%2BJd4WtLe&td=202604102018',
   },
   {
+    id: 'gangnam',
+    name: 'Gangnam',
+    location: 'Seoul, South Korea',
+    lat: 37.4979,
+    lng: 127.0276,
+    streamUrl: '/ec-proxy/fecnetwork/32784.flv/playlist.m3u8?t=Re8NX79fTJK9E13XCBfxxzXywfE%2FxPmVenKRNYeGIYmgBWzMck5uxSCUqzo3tAQ5&td=202604102022',
+  },
+  {
     id: 'seoul',
     name: 'Songridan-gil',
     location: 'Seoul, South Korea',
