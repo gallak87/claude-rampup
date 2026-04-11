@@ -6,8 +6,8 @@ import './index.css';
 type AppId = 'canary' | 'hawk';
 
 const APPS: { id: AppId; label: string }[] = [
-  { id: 'canary', label: 'Canary' },
   { id: 'hawk',   label: 'Hawk'   },
+  { id: 'canary', label: 'Canary' },
 ];
 
 export default function App() {
