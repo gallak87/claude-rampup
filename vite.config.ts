@@ -15,6 +15,15 @@ export default defineConfig({
           Origin: 'https://www.earthcam.com',
         },
       },
+      '/ec-arch': {
+        target: 'https://video2archives.earthcam.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/ec-arch/, ''),
+        headers: {
+          Referer: 'https://www.earthcam.com/',
+          Origin: 'https://www.earthcam.com',
+        },
+      },
     },
   },
 })
