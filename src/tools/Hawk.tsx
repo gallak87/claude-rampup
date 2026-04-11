@@ -3,6 +3,7 @@ import Globe from 'globe.gl';
 import * as THREE from 'three';
 import { generateEvent, severityColor, fmtTime, type ThreatEvent } from './threatFeed';
 import { CAM_FEEDS, type CamFeed } from './camFeeds';
+import { HlsPlayer } from './HlsPlayer';
 
 const MAX_FEED = 60;
 const ARC_TTL  = 4000;
@@ -237,7 +238,7 @@ export function Hawk() {
           </div>
           {activeCam ? (
             <div className="hawk__cam-player">
-              <img src={activeCam.mjpegUrl} className="hawk__cam-iframe" alt={activeCam.name} />
+              <HlsPlayer src={activeCam.streamUrl} className="hawk__cam-iframe" />
               <p className="hawk__cam-location">{activeCam.location}</p>
             </div>
           ) : (
